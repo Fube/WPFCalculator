@@ -5,8 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFCalculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="550" Width="350">
     <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         
+        <!-- Result -->
+        <Label Grid.Row="0"
+               Grid.ColumnSpan="4"
+               Grid.RowSpan="2"
+               Content="0"
+               Style="{ StaticResource result }"
+               />
+
+        <!-- Modifier Buttons -->
+        <Button Grid.Row="2" Content="AC" />
+        <Button Grid.Row="2" Grid.Column="1" Content="+/-" />
+        <Button Grid.Row="2" Grid.Column="2" Content="%" />
+        
+        <!-- Operation Buttons -->
+        <Button Grid.Row="2" Grid.Column="3" Content="/" Style="{ StaticResource operation }"/>
+        <Button Grid.Row="3" Grid.Column="3" Content="*" Style="{ StaticResource operation }"/>
+        <Button Grid.Row="4" Grid.Column="3" Content="-" Style="{ StaticResource operation }"/>
+        <Button Grid.Row="5" Grid.Column="3" Content="+" Style="{ StaticResource operation }"/>
+        <Button Grid.Row="6" Grid.Column="3" Content="=" Style="{ StaticResource operation }"/>
+        
+        <!-- Number Buttons -->
+        <Button Grid.Row="3"                 Content="7" Style="{ StaticResource number }" />
+        <Button Grid.Row="3" Grid.Column="1" Content="8" Style="{ StaticResource number }" />
+        <Button Grid.Row="3" Grid.Column="2" Content="9" Style="{ StaticResource number }" />
+
+        <Button Grid.Row="4"                 Content="4" Style="{ StaticResource number }" />
+        <Button Grid.Row="4" Grid.Column="1" Content="5" Style="{ StaticResource number }" />
+        <Button Grid.Row="4" Grid.Column="2" Content="6" Style="{ StaticResource number }" />
+
+        <Button Grid.Row="5"                 Content="1" Style="{ StaticResource number }" />
+        <Button Grid.Row="5" Grid.Column="1" Content="2" Style="{ StaticResource number }" />
+        <Button Grid.Row="5" Grid.Column="2" Content="3" Style="{ StaticResource number }" />
+
+        <Button Grid.Row="6" Grid.ColumnSpan="2" Content="0" Style="{ StaticResource number }" />
+
+        <Button Grid.Row="6" Grid.Column="2" Content="." Style="{ StaticResource number }" />
+
+
     </Grid>
 </Window>
