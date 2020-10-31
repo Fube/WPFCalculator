@@ -34,16 +34,16 @@
                />
 
         <!-- Modifier Buttons -->
-        <Button Grid.Row="2" Content="AC" />
+        <Button Grid.Row="2"                 Content="AC" />
         <Button Grid.Row="2" Grid.Column="1" Content="+/-" />
         <Button Grid.Row="2" Grid.Column="2" Content="%" />
         
         <!-- Operation Buttons -->
-        <Button Grid.Row="2" Grid.Column="3" Content="/" Style="{ StaticResource operation }"/>
-        <Button Grid.Row="3" Grid.Column="3" Content="*" Style="{ StaticResource operation }"/>
-        <Button Grid.Row="4" Grid.Column="3" Content="-" Style="{ StaticResource operation }"/>
-        <Button Grid.Row="5" Grid.Column="3" Content="+" Style="{ StaticResource operation }"/>
-        <Button Grid.Row="6" Grid.Column="3" Content="=" Style="{ StaticResource operation }"/>
+        <Button Grid.Row="2" Grid.Column="3" Content="/" Style="{ StaticResource operation }" />
+        <Button Grid.Row="3" Grid.Column="3" Content="*" Style="{ StaticResource operation }" />
+        <Button Grid.Row="4" Grid.Column="3" Content="-" Style="{ StaticResource operation }" />
+        <Button Grid.Row="5" Grid.Column="3" Content="+" Style="{ StaticResource operation }" />
+        <Button Grid.Row="6" Grid.Column="3" Content="=" Style="{ StaticResource operation }" />
         
         <!-- Number Buttons -->
         <Button Grid.Row="3"                 Content="7" Style="{ StaticResource number }" />
