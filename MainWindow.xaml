@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPFCalculator"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="350">
-    <Grid>
+    <Grid x:Name="myGrid">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -31,6 +31,7 @@
                Grid.RowSpan="2"
                Content="0"
                Style="{ StaticResource result }"
+               x:Name="Result"
                />
 
         <!-- Modifier Buttons -->
