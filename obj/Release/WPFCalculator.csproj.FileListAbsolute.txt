@@ -1,0 +1,15 @@
+C:\Users\Nariman\source\repos\WPFCalculator\bin\Release\WPFCalculator.exe.config
+C:\Users\Nariman\source\repos\WPFCalculator\bin\Release\WPFCalculator.exe
+C:\Users\Nariman\source\repos\WPFCalculator\bin\Release\WPFCalculator.pdb
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\MainWindow.g.cs
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\App.g.cs
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator_MarkupCompile.cache
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator_MarkupCompile.lref
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\App.baml
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\MainWindow.baml
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.g.resources
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.Properties.Resources.resources
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.csproj.GenerateResource.cache
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.csproj.CoreCompileInputs.cache
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.exe
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.pdb

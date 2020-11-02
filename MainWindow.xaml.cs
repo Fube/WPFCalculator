@@ -26,10 +26,10 @@ namespace WPFCalculator
     {
         // Class level var = static var
         private static double?
-                lastNumber = null,
-                result = null; // What is the point of result? Everything works without it
+                lastNumber,
+                result;
 
-        private SelectedOperator? selectedOperator = null;
+        private static SelectedOperator? selectedOperator;
 
         private enum SelectedOperator
         {
@@ -87,10 +87,12 @@ namespace WPFCalculator
         private void HandleOperation(string operation)
         {
 
-            if(selectedOperator != null) // Throw error if user changes the opeartion half way through
-            {
-                throw new Exception("Wtf dude");
-            }
+            result = null;
+
+            //if (selectedOperator != null) // Throw error if user changes the operation half way through
+            //{
+            //    throw new Exception("Wtf dude");
+            //}
 
             switch (operation)
             {
@@ -104,6 +106,12 @@ namespace WPFCalculator
         private void HandleNumber(string number)
         {
 
+            if (result != null)
+            {
+                result = null;
+                Result.Content = "0";
+            }
+
             if (selectedOperator != null && lastNumber == null) // Second number flow
             {
                 lastNumber = double.Parse(Result.Content + "");
@@ -111,7 +119,7 @@ namespace WPFCalculator
             }
             else // Normal flow
             {
-                Result.Content = Result.Content.ToString().Equals("0") ? number : Result.Content + number;
+                Result.Content = Result.Content.ToString().Equals("0") ? number : Result.Content + number; // Checks to see if it is the first ever entry, if yes: override otherwise: append
             }
         }
 
@@ -124,19 +132,26 @@ namespace WPFCalculator
                     {
                         try
                         {
-                            Result.Content = DoOperation(selectedOperator, double.Parse(lastNumber + ""), double.Parse(Result.Content + ""));
+
+                            result = DoOperation(selectedOperator, double.Parse(lastNumber.ToString()),double.Parse(Result.Content.ToString()));
+                            Result.Content = result;
                         }
-                        catch(Exception ex) when (ex is ArithmeticException || ex is DivideByZeroException) // Division by zero is legal apparently. It just returns Infinity...
+                        catch (Exception ex) when (ex is ArithmeticException || ex is DivideByZeroException) // Division by zero is legal apparently. It just returns Infinity...
                         {
                             Result.Content = "That is mathematically impossible";
                         }
+                        catch (Exception e)
+                        {
+                            Trace.WriteLine(e.StackTrace);
+                        }
+
                         Reset();
                         break;
                     }
                 case "AC":  Reset(); Result.Content = 0; break;
                 case "+/-": Result.Content = double.Parse(Result.Content + "") * -1; break;
-                case "%":   selectedOperator = SelectedOperator.Addition; Result.Content = double.Parse(Result.Content + "") * 0.01; break;
-                case ".": if (Result.Content.ToString().Contains(".")) return; else Result.Content += "."; break;
+                case "%":   result = null; selectedOperator = SelectedOperator.Addition; Result.Content = double.Parse(Result.Content + "") * 0.01; break;
+                case ".":   if (!Result.Content.ToString().Contains(".")) Result.Content += "."; break;
             }
         }
 
@@ -144,17 +159,17 @@ namespace WPFCalculator
         {
             switch (SO)
             {
-                case SelectedOperator.Addition: return MathService.Add(o, o1);
-                case SelectedOperator.Subtraction: return MathService.Subtract(o, o1);
-                case SelectedOperator.Multiplication: return MathService.Multiply(o, o1);
-                case SelectedOperator.Division: return MathService.Divide(o, o1);
-                default: return null;
+                case SelectedOperator.Addition:         return MathService.Add(o, o1);
+                case SelectedOperator.Subtraction:      return MathService.Subtract(o, o1);
+                case SelectedOperator.Multiplication:   return MathService.Multiply(o, o1);
+                case SelectedOperator.Division:         return MathService.Divide(o, o1);
+                default:                                return null;
             }
         }
 
         private void Reset() // Note that reset and "AC" are not the same
         {
-            lastNumber = result = null;
+            lastNumber = null;
             selectedOperator = null;
         }
     }
