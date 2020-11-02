@@ -13,3 +13,4 @@ C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.csproj.Gen
 C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.csproj.CoreCompileInputs.cache
 C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.exe
 C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.pdb
+C:\Users\Nariman\source\repos\WPFCalculator\obj\Release\WPFCalculator.csprojAssemblyReference.cache

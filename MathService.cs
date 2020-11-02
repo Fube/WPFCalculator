@@ -14,7 +14,7 @@ namespace WPFCalculator
         public static double Multiply(double o, double o1) => o * o1;
         public static double Divide(double o, double o1){
 
-            if (o1 == 0) // Have to force the expetion cause it refuses to throw it by itself
+            if (o1 == 0) // Have to force the exception cause it refuses to throw it by itself
                 throw new DivideByZeroException("Can't divide by zero");
 
             return o / o1;

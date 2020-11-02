@@ -1,21 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WPFCalculator
 {
@@ -53,8 +40,6 @@ namespace WPFCalculator
 
                 if(elem is Button button)
                 {
-
-
                     button.Click += HandleClick( button.Content.ToString() );
                 }
             }
@@ -88,11 +73,6 @@ namespace WPFCalculator
         {
 
             result = null;
-
-            //if (selectedOperator != null) // Throw error if user changes the operation half way through
-            //{
-            //    throw new Exception("Wtf dude");
-            //}
 
             switch (operation)
             {
@@ -150,7 +130,7 @@ namespace WPFCalculator
                     }
                 case "AC":  Reset(); Result.Content = 0; break;
                 case "+/-": Result.Content = double.Parse(Result.Content + "") * -1; break;
-                case "%":   result = null; selectedOperator = SelectedOperator.Addition; Result.Content = double.Parse(Result.Content + "") * 0.01; break;
+                case "%":   result = null; selectedOperator = SelectedOperator.Addition; Result.Content = double.Parse(Result.Content + "") * ((lastNumber ?? 1) / 100); break;
                 case ".":   if (!Result.Content.ToString().Contains(".")) Result.Content += "."; break;
             }
         }
