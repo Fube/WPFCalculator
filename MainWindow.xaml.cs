@@ -11,12 +11,12 @@ namespace WPFCalculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        // Class level var = static var
+        // Set as nullable because it defaults to 0 if it ISN'T nullable.
         private static double?
-                lastNumber,
-                result;
-
-        private static SelectedOperator? selectedOperator;
+                _lastNumber,
+                _result;
+        // Set as nullable because it defaults to the first value in the enum if it ISN'T nullable
+        private static SelectedOperator? _selectedOperator;
 
         private enum SelectedOperator
         {
@@ -35,7 +35,7 @@ namespace WPFCalculator
             // CSS selectors.
             // WPF sucks. Change my mind
 
-            foreach (var elem in myGrid.Children)
+            foreach (var elem in MyGrid.Children)
             {
 
                 if(elem is Button button)
@@ -47,54 +47,54 @@ namespace WPFCalculator
 
         private RoutedEventHandler HandleClick(string content)
         {
-            const string IS_NUMBER = @"^\d+$";
-            const string IS_OPERATION = @"^(\+|\-|\*|\/)$";
-            const string IS_SPECIAL_OPERATION = @"^(\+\/\-|\%|AC|=|\.)$";
+            const string isNumber = @"^\d+$";
+            const string isOperation = @"^(\+|\-|\*|\/)$";
+            const string isSpecialOperation = @"^(\+\/\-|\%|AC|=|\.)$";
 
-            RoutedEventHandler REH = (e, s) => Trace.WriteLine("Unknown");
+            RoutedEventHandler reh = (e, s) => Trace.WriteLine("Unknown");
 
-            if (Regex.IsMatch(content, IS_NUMBER))
+            if (Regex.IsMatch(content, isNumber))
             {
-                REH = (e, s) => HandleNumber(content);
+                reh = (e, s) => HandleNumber(content);
             }
-            else if(Regex.IsMatch(content, IS_OPERATION))
+            else if(Regex.IsMatch(content, isOperation))
             {
-                REH = (e, s) => HandleOperation(content);
+                reh = (e, s) => HandleOperation(content);
             }
-            else if(Regex.IsMatch(content, IS_SPECIAL_OPERATION))
+            else if(Regex.IsMatch(content, isSpecialOperation))
             {
-                REH = (e, s) => HandleSpecialOperation(content);
+                reh = (e, s) => HandleSpecialOperation(content);
             }
 
-            return REH;
+            return reh;
         }
 
         private void HandleOperation(string operation)
         {
 
-            result = null;
+            _result = null;
 
             switch (operation)
             {
-                case "+": selectedOperator = SelectedOperator.Addition;         break;
-                case "-": selectedOperator = SelectedOperator.Subtraction;      break;
-                case "*": selectedOperator = SelectedOperator.Multiplication;   break;
-                case "/": selectedOperator = SelectedOperator.Division;         break;
+                case "+": _selectedOperator = SelectedOperator.Addition;         break;
+                case "-": _selectedOperator = SelectedOperator.Subtraction;      break;
+                case "*": _selectedOperator = SelectedOperator.Multiplication;   break;
+                case "/": _selectedOperator = SelectedOperator.Division;         break;
             }
         }
 
         private void HandleNumber(string number)
         {
 
-            if (result != null)
+            if (_result != null)
             {
-                result = null;
+                _result = null;
                 Result.Content = "0";
             }
 
-            if (selectedOperator != null && lastNumber == null) // Second number flow
+            if (_selectedOperator != null && _lastNumber == null) // Second number flow
             {
-                lastNumber = double.Parse(Result.Content + "");
+                _lastNumber = double.Parse(Result.Content + "");
                 Result.Content = number;
             }
             else // Normal flow
@@ -113,8 +113,8 @@ namespace WPFCalculator
                         try
                         {
 
-                            result = DoOperation(selectedOperator, double.Parse(lastNumber.ToString()),double.Parse(Result.Content.ToString()));
-                            Result.Content = result;
+                            _result = DoOperation(_selectedOperator, double.Parse(_lastNumber.ToString()),double.Parse(Result.Content.ToString()));
+                            Result.Content = _result;
                         }
                         catch (Exception ex) when (ex is ArithmeticException || ex is DivideByZeroException) // Division by zero is legal apparently. It just returns Infinity...
                         {
@@ -130,14 +130,14 @@ namespace WPFCalculator
                     }
                 case "AC":  Reset(); Result.Content = 0; break;
                 case "+/-": Result.Content = double.Parse(Result.Content + "") * -1; break;
-                case "%":   result = null; selectedOperator = SelectedOperator.Addition; Result.Content = double.Parse(Result.Content + "") * ((lastNumber ?? 1) / 100); break;
+                case "%":   _result = null; _selectedOperator = SelectedOperator.Addition; Result.Content = double.Parse(Result.Content + "") * ((_lastNumber ?? 1) / 100); break;
                 case ".":   if (!Result.Content.ToString().Contains(".")) Result.Content += "."; break;
             }
         }
 
-        private double? DoOperation(SelectedOperator? SO, double o, double o1)
+        private double? DoOperation(SelectedOperator? so, double o, double o1)
         {
-            switch (SO)
+            switch (so)
             {
                 case SelectedOperator.Addition:         return MathService.Add(o, o1);
                 case SelectedOperator.Subtraction:      return MathService.Subtract(o, o1);
@@ -149,8 +149,8 @@ namespace WPFCalculator
 
         private void Reset() // Note that reset and "AC" are not the same
         {
-            lastNumber = null;
-            selectedOperator = null;
+            _lastNumber = null;
+            _selectedOperator = null;
         }
     }
 }

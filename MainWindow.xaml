@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPFCalculator"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="350">
-    <Grid x:Name="myGrid">
+    <Grid x:Name="MyGrid">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
