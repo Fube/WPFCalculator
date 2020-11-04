@@ -26,13 +26,12 @@
         </Grid.RowDefinitions>
         
         <!-- Result -->
-        <Label Grid.Row="0"
-               Grid.ColumnSpan="4"
-               Grid.RowSpan="2"
+        <Label Grid.RowSpan="2" Grid.Row="0"
+               Grid.ColumnSpan="3" Grid.Column="1"
                Content="0"
                Style="{ StaticResource result }"
                x:Name="Result"
-               />
+        />
 
         <!-- Modifier Buttons -->
         <Button Grid.Row="2"                 Content="AC" />
@@ -47,19 +46,19 @@
         <Button Grid.Row="6" Grid.Column="3" Content="=" Style="{ StaticResource operation }" />
         
         <!-- Number Buttons -->
-        <Button Grid.Row="3"                 Content="7" Style="{ StaticResource number }" />
-        <Button Grid.Row="3" Grid.Column="1" Content="8" Style="{ StaticResource number }" />
-        <Button Grid.Row="3" Grid.Column="2" Content="9" Style="{ StaticResource number }" />
+        <Button Grid.Row="3"                 Content="7" Style="{ StaticResource number }" Click="HandleNumber"/>
+        <Button Grid.Row="3" Grid.Column="1" Content="8" Style="{ StaticResource number }" Click="HandleNumber"/>
+        <Button Grid.Row="3" Grid.Column="2" Content="9" Style="{ StaticResource number }" Click="HandleNumber"/>
 
-        <Button Grid.Row="4"                 Content="4" Style="{ StaticResource number }" />
-        <Button Grid.Row="4" Grid.Column="1" Content="5" Style="{ StaticResource number }" />
-        <Button Grid.Row="4" Grid.Column="2" Content="6" Style="{ StaticResource number }" />
+        <Button Grid.Row="4"                 Content="4" Style="{ StaticResource number }" Click="HandleNumber"/>
+        <Button Grid.Row="4" Grid.Column="1" Content="5" Style="{ StaticResource number }" Click="HandleNumber"/>
+        <Button Grid.Row="4" Grid.Column="2" Content="6" Style="{ StaticResource number }" Click="HandleNumber"/>
 
-        <Button Grid.Row="5"                 Content="1" Style="{ StaticResource number }" />
-        <Button Grid.Row="5" Grid.Column="1" Content="2" Style="{ StaticResource number }" />
-        <Button Grid.Row="5" Grid.Column="2" Content="3" Style="{ StaticResource number }" />
+        <Button Grid.Row="5"                 Content="1" Style="{ StaticResource number }" Click="HandleNumber"/>
+        <Button Grid.Row="5" Grid.Column="1" Content="2" Style="{ StaticResource number }" Click="HandleNumber"/>
+        <Button Grid.Row="5" Grid.Column="2" Content="3" Style="{ StaticResource number }" Click="HandleNumber"/>
 
-        <Button Grid.Row="6" Grid.ColumnSpan="2" Content="0" Style="{ StaticResource number }" />
+        <Button Grid.Row="6" Grid.ColumnSpan="2" Content="0" Style="{ StaticResource number }" Click="HandleNumber"/>
 
         <Button Grid.Row="6" Grid.Column="2" Content="." Style="{ StaticResource number }" />
 

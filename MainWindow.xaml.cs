@@ -36,7 +36,12 @@ namespace WPFCalculator
             foreach (var elem in MyGrid.Children) // We loop over all of the grid's children
             {
 
-                if(elem is Button button) // If the child is a Button, we enter this if and refer to the child CAST TO A BUTTON as button
+                // You might be wondering: Why not just name every button and assign a Click one by one?
+                // If you have a thousand buttons, will you go through them and name them one by one?
+                // Hopefully not. My laziness level caps at: if I have to do thing more than twice, I'd rather loop.
+                // There are more than 2 buttons, so here we are.
+
+                if(elem is Button button && !Regex.IsMatch(button.Content.ToString(), @"\d")) // If the child is a Button, we enter this if and refer to the child CAST TO A BUTTON as button
                 {
                     button.Click += AssignClick( button.Content.ToString() ); // We attach the appropriate event handler
                 }
@@ -47,18 +52,19 @@ namespace WPFCalculator
         {
             // Simple-ish RegEx to check if the content is a number, operation, special operation.
             // If it is none, we simply log (with Trace.WriteLine) that the button is unknown
-            const string isNumber = @"^\d+$";
+            //const string isNumber = @"^\d+$";
             const string isOperation = @"^(\+|\-|\*|\/)$";
             const string isSpecialOperation = @"^(\+\/\-|\%|AC|=|\.)$";
 
             // Default event handler
             RoutedEventHandler reh = (e, s) => Trace.WriteLine("Unknown");
 
-            if (Regex.IsMatch(content, isNumber))
-            {
-                reh = (e, s) => HandleNumber(content);
-            }
-            else if(Regex.IsMatch(content, isOperation))
+            // Removed to match the requirements
+            // if (Regex.IsMatch(content, isNumber))
+            // {
+            //     reh = (e, s) => HandleNumber(content);
+            // }
+            if(Regex.IsMatch(content, isOperation))
             {
                 reh = (e, s) => HandleOperation(content);
             }
@@ -92,8 +98,10 @@ namespace WPFCalculator
             }
         }
 
-        private void HandleNumber(string number)
+        private void HandleNumber(object sender, RoutedEventArgs eventArgs)
         {
+
+            string number = ((Button) eventArgs.Source).Content.ToString();
 
             HandleSecondNumber();
 
@@ -138,8 +146,10 @@ namespace WPFCalculator
 
         private void HandlePercentageClick(object sender, RoutedEventArgs eventArgs)
         {
-            _result = null; 
-            _selectedOperator = SelectedOperator.Addition;
+            _result = null;
+            // Prior to the change, this was needed to pass test 4
+            // Test changed and so does the program...
+            //_selectedOperator = SelectedOperator.Addition;
             Result.Content = double.Parse(Result.Content.ToString()) * ((_lastNumber ?? 1) / 100);
         }
 
