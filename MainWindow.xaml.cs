@@ -41,7 +41,7 @@ namespace WPFCalculator
                 // Hopefully not. My laziness level caps at: if I have to do thing more than twice, I'd rather loop.
                 // There are more than 2 buttons, so here we are.
 
-                if(elem is Button button && !Regex.IsMatch(button.Content.ToString(), @"\d")) // If the child is a Button, we enter this if and refer to the child CAST TO A BUTTON as button
+                if(elem is Button button && !Regex.IsMatch(button.Content.ToString(), @"\d+")) // If the child is a Button, we enter this if and refer to the child CAST TO A BUTTON as button
                 {
                     button.Click += AssignClick( button.Content.ToString() ); // We attach the appropriate event handler
                 }

@@ -27,7 +27,7 @@
         
         <!-- Result -->
         <Label Grid.RowSpan="2" Grid.Row="0"
-               Grid.ColumnSpan="3" Grid.Column="1"
+               Grid.ColumnSpan="4" Grid.Column="0"
                Content="0"
                Style="{ StaticResource result }"
                x:Name="Result"
