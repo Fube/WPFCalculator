@@ -34,23 +34,25 @@ namespace WPFCalculator
             // You know what would make this easier? 
             // CSS selectors.
             // WPF sucks. Change my mind
-
-            foreach (var elem in MyGrid.Children)
+            foreach (var elem in MyGrid.Children) // We loop over all of the grid's children
             {
 
-                if(elem is Button button)
+                if(elem is Button button) // If the child is a Button, we enter this if and refer to the child CAST TO A BUTTON as button
                 {
-                    button.Click += HandleClick( button.Content.ToString() );
+                    button.Click += AssignClick( button.Content.ToString() ); // We attach the appropriate event handler
                 }
             }
         }
 
-        private RoutedEventHandler HandleClick(string content)
+        private RoutedEventHandler AssignClick(string content)
         {
+            // Simple-ish RegEx to check if the content is a number, operation, special operation.
+            // If it is none, we simply log (with Trace.WriteLine) that the button is unknown
             const string isNumber = @"^\d+$";
             const string isOperation = @"^(\+|\-|\*|\/)$";
             const string isSpecialOperation = @"^(\+\/\-|\%|AC|=|\.)$";
 
+            // Default event handler
             RoutedEventHandler reh = (e, s) => Trace.WriteLine("Unknown");
 
             if (Regex.IsMatch(content, isNumber))
@@ -63,17 +65,25 @@ namespace WPFCalculator
             }
             else if(Regex.IsMatch(content, isSpecialOperation))
             {
-                reh = (e, s) => HandleSpecialOperation(content);
+                reh = AssignSpecialOperationHandler(content);
             }
 
             return reh;
         }
 
-        private void HandleOperation(string operation)
+        private void HandleSecondNumber()
         {
 
+            if (_result == null) return;
+                _result = null;
+                Result.Content = "0";
+        }
+
+        private void HandleOperation(string operation)
+        {
             _result = null;
 
+            // Based on the operation string, call the appropriate mathematical operator
             switch (operation)
             {
                 case "+": _selectedOperator = SelectedOperator.Addition;         break;
@@ -86,13 +96,11 @@ namespace WPFCalculator
         private void HandleNumber(string number)
         {
 
-            if (_result != null)
-            {
-                _result = null;
-                Result.Content = "0";
-            }
+            HandleSecondNumber();
 
-            if (_selectedOperator != null && _lastNumber == null) // Second number flow
+            // When there is a _selectedOperator AND there is NO last number, it means we have just entered the first number and selected the operation
+            // As such, we need to save the last number in _lastNumber and set Result.Content to the new number
+            if (_selectedOperator != null && _lastNumber == null)
             {
                 _lastNumber = double.Parse(Result.Content + "");
                 Result.Content = number;
@@ -103,35 +111,63 @@ namespace WPFCalculator
             }
         }
 
-        private void HandleSpecialOperation(string operation)
+        private void HandleEqualsClick(object sender, RoutedEventArgs eventArgs)
+        {
+            try
+            {
+
+                _result = DoOperation(_selectedOperator, double.Parse(_lastNumber.ToString()), double.Parse(Result.Content.ToString()));
+                Result.Content = _result;
+            }
+            catch (Exception ex) when (ex is ArithmeticException) // Division by zero is legal apparently. It just returns Infinity...
+            {
+                // REPLACE THIS WITH A MESSAGE BOX
+                Result.Content = "That is mathematically impossible";
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.StackTrace);
+            }
+
+            Reset();
+        }
+
+        private void HandleACClick(object sender, RoutedEventArgs eventArgs)
+        {
+            Reset();
+            Result.Content = "0";
+        }
+
+        private void HandlePercentageClick(object sender, RoutedEventArgs eventArgs)
+        {
+            _result = null; 
+            _selectedOperator = SelectedOperator.Addition;
+            Result.Content = double.Parse(Result.Content.ToString()) * ((_lastNumber ?? 1) / 100);
+        }
+
+        private void HandlePeriodClick(object sender, RoutedEventArgs eventArgs)
+        {
+            HandleSecondNumber();
+            if (!Result.Content.ToString().Contains("."))// This is to prevent having 1.23.45
+                Result.Content += ".";
+        }
+
+        private void HandlePlusMinusClick(object sender, RoutedEventArgs eventArgs)
+        {
+            Result.Content = double.Parse(Result.Content.ToString()) * -1;
+        }
+
+        private RoutedEventHandler AssignSpecialOperationHandler(string operation)
         {
 
             switch (operation)
             {
-                case "=":
-                    {
-                        try
-                        {
-
-                            _result = DoOperation(_selectedOperator, double.Parse(_lastNumber.ToString()),double.Parse(Result.Content.ToString()));
-                            Result.Content = _result;
-                        }
-                        catch (Exception ex) when (ex is ArithmeticException || ex is DivideByZeroException) // Division by zero is legal apparently. It just returns Infinity...
-                        {
-                            Result.Content = "That is mathematically impossible";
-                        }
-                        catch (Exception e)
-                        {
-                            Trace.WriteLine(e.StackTrace);
-                        }
-
-                        Reset();
-                        break;
-                    }
-                case "AC":  Reset(); Result.Content = 0; break;
-                case "+/-": Result.Content = double.Parse(Result.Content + "") * -1; break;
-                case "%":   _result = null; _selectedOperator = SelectedOperator.Addition; Result.Content = double.Parse(Result.Content + "") * ((_lastNumber ?? 1) / 100); break;
-                case ".":   if (!Result.Content.ToString().Contains(".")) Result.Content += "."; break;
+                case "=":   return HandleEqualsClick;
+                case "AC":  return HandleACClick;
+                case "+/-": return HandlePlusMinusClick;
+                case "%":   return HandlePercentageClick;
+                case ".":   return HandlePeriodClick;
+                default:    return (e, s) => Trace.WriteLine("Unknown");
             }
         }
 
@@ -147,6 +183,8 @@ namespace WPFCalculator
             }
         }
 
+        // This method is used in both "=" and "AC"
+        // I extracted the code into a method to avoid repeating myself
         private void Reset() // Note that reset and "AC" are not the same
         {
             _lastNumber = null;
