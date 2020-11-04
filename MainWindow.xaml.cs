@@ -74,8 +74,8 @@ namespace WPFCalculator
         {
 
             if (_result == null) return;
-                _result = null;
-                Result.Content = "0";
+            _result = null;
+            Result.Content = "0";
         }
 
         private void HandleOperation(string operation)
@@ -101,7 +101,7 @@ namespace WPFCalculator
             // As such, we need to save the last number in _lastNumber and set Result.Content to the new number
             if (_selectedOperator != null && _lastNumber == null)
             {
-                _lastNumber = double.Parse(Result.Content + "");
+                _lastNumber = double.Parse(Result.Content.ToString());
                 Result.Content = number;
             }
             else // Normal flow
