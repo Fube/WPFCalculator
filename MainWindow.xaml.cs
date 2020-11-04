@@ -30,7 +30,6 @@ namespace WPFCalculator
         {
             InitializeComponent();
 
-
             // You know what would make this easier? 
             // CSS selectors.
             // WPF sucks. Change my mind
@@ -119,10 +118,9 @@ namespace WPFCalculator
                 _result = DoOperation(_selectedOperator, double.Parse(_lastNumber.ToString()), double.Parse(Result.Content.ToString()));
                 Result.Content = _result;
             }
-            catch (Exception ex) when (ex is ArithmeticException) // Division by zero is legal apparently. It just returns Infinity...
+            catch (Exception ex) when (ex is ArithmeticException || ex is DivideByZeroException) // Division by zero is legal apparently. It just returns Infinity...
             {
-                // REPLACE THIS WITH A MESSAGE BOX
-                Result.Content = "That is mathematically impossible";
+                MessageBox.Show("That is mathematically impossible...", "Logic error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception e)
             {
